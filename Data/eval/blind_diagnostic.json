@@ -1,0 +1,302 @@
+[
+  {
+    "id": "b01",
+    "blocked": null,
+    "guard_fail": false,
+    "hit_count": 14,
+    "top_sim": 0.5324583897490165,
+    "top_ids": [
+      "rec-0233",
+      "rec-0001",
+      "rec-0246",
+      "rec-0314",
+      "rec-0321",
+      "rec-0245",
+      "rec-0242",
+      "rec-0266"
+    ],
+    "expect_recall": true,
+    "source_links_preview": "**rec-0233** \u00b7 play_store \u00b7 personal_experience \u00b7 Play Store review\nIts service is very poor, I have been using it for the last 3 years but if a SIP gets started by mistake then they are saying that e",
+    "unique_urls": 2
+  },
+  {
+    "id": "b02",
+    "blocked": null,
+    "guard_fail": false,
+    "hit_count": 14,
+    "top_sim": 0.44948161370603246,
+    "top_ids": [
+      "rec-0296",
+      "rec-0024",
+      "rec-0047",
+      "rec-0257",
+      "rec-0043",
+      "rec-0030",
+      "rec-0120",
+      "rec-0123"
+    ],
+    "expect_recall": false,
+    "source_links_preview": "**rec-0296** \u00b7 play_store \u00b7 personal_experience \u00b7 Play Store review\nNot happy with the experience, first, my external investment are not updating automatically every month,despite several mails, they ",
+    "unique_urls": 0
+  },
+  {
+    "id": "b03",
+    "blocked": null,
+    "guard_fail": false,
+    "hit_count": 14,
+    "top_sim": 0.6026274658719606,
+    "top_ids": [
+      "rec-0323",
+      "rec-0246",
+      "rec-0257",
+      "rec-0335",
+      "rec-0321",
+      "rec-0314",
+      "rec-0310",
+      "rec-0305"
+    ],
+    "expect_recall": true,
+    "source_links_preview": "**rec-0323** \u00b7 play_store \u00b7 personal_experience \u00b7 Play Store review\nI would like to give you some feedback as i am facing some issues while SIP autopay please if your team can work on it would be grat",
+    "unique_urls": 1
+  },
+  {
+    "id": "b04",
+    "blocked": null,
+    "guard_fail": false,
+    "hit_count": 14,
+    "top_sim": 0.5997250314250654,
+    "top_ids": [
+      "rec-0310",
+      "rec-0305",
+      "rec-0335",
+      "rec-0257",
+      "rec-0321",
+      "rec-0272",
+      "rec-0260",
+      "rec-0313"
+    ],
+    "expect_recall": true,
+    "source_links_preview": "**rec-0310** \u00b7 play_store \u00b7 personal_experience \u00b7 Play Store review\nI had the worst experience with their support team. I reached out multiple times, even providing screen recordings, but they were un",
+    "unique_urls": 0
+  },
+  {
+    "id": "b05",
+    "blocked": null,
+    "guard_fail": false,
+    "hit_count": 14,
+    "top_sim": 0.6132166182159758,
+    "top_ids": [
+      "rec-0310",
+      "rec-0271",
+      "rec-0280",
+      "rec-0284",
+      "rec-0325",
+      "rec-0092",
+      "rec-0312",
+      "rec-0294"
+    ],
+    "expect_recall": true,
+    "source_links_preview": "**rec-0310** \u00b7 play_store \u00b7 personal_experience \u00b7 Play Store review\nI had the worst experience with their support team. I reached out multiple times, even providing screen recordings, but they were un",
+    "unique_urls": 0
+  },
+  {
+    "id": "b06",
+    "blocked": null,
+    "guard_fail": false,
+    "hit_count": 14,
+    "top_sim": 0.4368258349650767,
+    "top_ids": [
+      "rec-0184",
+      "rec-0202",
+      "rec-0353",
+      "rec-0132",
+      "rec-0192",
+      "rec-0158",
+      "rec-0451",
+      "rec-0160"
+    ],
+    "expect_recall": true,
+    "source_links_preview": "**rec-0184** \u00b7 play_store \u00b7 personal_experience \u00b7 Play Store review\nVery poor support team experience. I was using this app to track my mutual funds but noticed that their dashboard showed a wrong val",
+    "unique_urls": 0
+  },
+  {
+    "id": "b07",
+    "blocked": null,
+    "guard_fail": false,
+    "hit_count": 14,
+    "top_sim": 0.5629629431319761,
+    "top_ids": [
+      "rec-0160",
+      "rec-0158",
+      "rec-0127",
+      "rec-0202",
+      "rec-0192",
+      "rec-0132",
+      "rec-0184",
+      "rec-0122"
+    ],
+    "expect_recall": true,
+    "source_links_preview": "**rec-0160** \u00b7 play_store \u00b7 personal_experience \u00b7 Play Store review\n\ufffd\ufffd\ufffdThe bond investment experience on Groww is currently the worst I've seen compared to other platforms. It feels like the feature w",
+    "unique_urls": 0
+  },
+  {
+    "id": "b08",
+    "blocked": null,
+    "guard_fail": false,
+    "hit_count": 14,
+    "top_sim": 0.5415936552556087,
+    "top_ids": [
+      "rec-0004",
+      "rec-0022",
+      "rec-0016",
+      "rec-0269",
+      "rec-0001",
+      "rec-0305",
+      "rec-0017",
+      "rec-0266"
+    ],
+    "expect_recall": true,
+    "source_links_preview": "**rec-0004** \u00b7 reddit \u00b7 personal_experience \u00b7 When do you decide?\nhttps://www.reddit.com/r/mutualfunds/comments/1xfta1w/when_do_you_decide/\n\n**rec-0022** \u00b7 reddit \u00b7 advice_or_commenter \u00b7 Got my first ",
+    "unique_urls": 5
+  },
+  {
+    "id": "b09",
+    "blocked": null,
+    "guard_fail": false,
+    "hit_count": 14,
+    "top_sim": 0.46168666682245907,
+    "top_ids": [
+      "rec-0131",
+      "rec-0293",
+      "rec-0286",
+      "rec-0271",
+      "rec-0280",
+      "rec-0323",
+      "rec-0310",
+      "rec-0325"
+    ],
+    "expect_recall": true,
+    "source_links_preview": "**rec-0131** \u00b7 app_store \u00b7 personal_experience \u00b7 A Reliable and User-Centric Investment Platform\nGroww is an efficient and well-designed platform that simplifies the investment experience for both new",
+    "unique_urls": 0
+  },
+  {
+    "id": "b10",
+    "blocked": null,
+    "guard_fail": false,
+    "hit_count": 14,
+    "top_sim": 0.7696221783890416,
+    "top_ids": [
+      "rec-0024",
+      "rec-0032",
+      "rec-0296",
+      "rec-0131",
+      "rec-0279",
+      "rec-0224",
+      "rec-0380",
+      "rec-0409"
+    ],
+    "expect_recall": true,
+    "source_links_preview": "**rec-0024** \u00b7 app_store \u00b7 personal_experience \u00b7 Utter chaos and ultimately loss making app\nWhen I signed up, until I uploaded all the documents they kept reading me about it and once I uploaded they ",
+    "unique_urls": 1
+  },
+  {
+    "id": "b11",
+    "blocked": null,
+    "guard_fail": false,
+    "hit_count": 14,
+    "top_sim": 0.526409412994217,
+    "top_ids": [
+      "rec-0329",
+      "rec-0001",
+      "rec-0335",
+      "rec-0246",
+      "rec-0243",
+      "rec-0323",
+      "rec-0263",
+      "rec-0257"
+    ],
+    "expect_recall": true,
+    "source_links_preview": "**rec-0329** \u00b7 play_store \u00b7 personal_experience \u00b7 Play Store review\nPlease send advanced notification for SIP Mandate. I am one more failed transaction away from being in overall loss from all my inve",
+    "unique_urls": 1
+  },
+  {
+    "id": "b12",
+    "blocked": null,
+    "guard_fail": false,
+    "hit_count": 14,
+    "top_sim": 0.5313620720962128,
+    "top_ids": [
+      "rec-0016",
+      "rec-0015",
+      "rec-0305",
+      "rec-0008",
+      "rec-0014",
+      "rec-0337",
+      "rec-0021",
+      "rec-0219"
+    ],
+    "expect_recall": null,
+    "source_links_preview": "**rec-0016** \u00b7 reddit \u00b7 personal_experience \u00b7 Medical student looking for beginner friendly financial advice\nhttps://www.reddit.com/r/personalfinanceindia/comments/1tpvuy0/medical_student_looking_for_",
+    "unique_urls": 9
+  },
+  {
+    "id": "b13",
+    "blocked": null,
+    "guard_fail": false,
+    "hit_count": 14,
+    "top_sim": 0.8016666666666669,
+    "top_ids": [
+      "rec-0022",
+      "rec-0001",
+      "rec-0015",
+      "rec-0014",
+      "rec-0003",
+      "rec-0222",
+      "rec-0245",
+      "rec-0377"
+    ],
+    "expect_recall": true,
+    "source_links_preview": "**rec-0022** \u00b7 reddit \u00b7 advice_or_commenter \u00b7 Got my first salary 35k .\nhttps://www.reddit.com/r/IndianStockMarket/comments/199rghr/got_my_first_salary_35k/\n\n**rec-0001** \u00b7 reddit \u00b7 personal_experienc",
+    "unique_urls": 10
+  },
+  {
+    "id": "b14",
+    "blocked": null,
+    "guard_fail": false,
+    "hit_count": 14,
+    "top_sim": 0.4548223850033573,
+    "top_ids": [
+      "rec-0232",
+      "rec-0184",
+      "rec-0127",
+      "rec-0209",
+      "rec-0451",
+      "rec-0202",
+      "rec-0158",
+      "rec-0122"
+    ],
+    "expect_recall": true,
+    "source_links_preview": "**rec-0232** \u00b7 play_store \u00b7 advice_or_commenter \u00b7 Play Store review\nit's the worst, I was investing for like 13 months in two SIP's and cancelled one of them today but after doing this my dashboard is",
+    "unique_urls": 0
+  },
+  {
+    "id": "b15",
+    "blocked": null,
+    "guard_fail": false,
+    "hit_count": 14,
+    "top_sim": 0.5857491516810847,
+    "top_ids": [
+      "rec-0307",
+      "rec-0310",
+      "rec-0271",
+      "rec-0294",
+      "rec-0303",
+      "rec-0323",
+      "rec-0312",
+      "rec-0394"
+    ],
+    "expect_recall": true,
+    "source_links_preview": "**rec-0307** \u00b7 play_store \u00b7 personal_experience \u00b7 Play Store review\nDecided to do my first SIP, transaction failed twice ,finally on third attempt it worked ,but they are showing transaction failed , ",
+    "unique_urls": 0
+  }
+]

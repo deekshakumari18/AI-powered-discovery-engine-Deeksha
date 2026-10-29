@@ -1,0 +1,7 @@
+python-docx
+sentence-transformers
+chromadb
+groq
+scikit-learn
+streamlit
+

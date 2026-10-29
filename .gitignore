@@ -1,0 +1,28 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Bundled local tooling / runtimes (not part of the app)
+.opencode/
+node_modules/
+node.exe
+npm
+npm.cmd
+npm.ps1
+npx
+npx.cmd
+npx.ps1
+nodevars.bat
+install_tools.bat
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

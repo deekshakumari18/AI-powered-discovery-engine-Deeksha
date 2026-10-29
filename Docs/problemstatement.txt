@@ -1,0 +1,77 @@
+Build an AI-Powered Discovery Engine
+An AI-powered system that analyses user feedback at scale.
+
+Scope - 
+The AI-powered discovery engine or chatbot should give only factual answers based on the provided documents.
+Shows one clear citation link in every answer.
+Refuses opinionated/ portfolio based questions with a polite, facts-only message and relevant educational link.
+Tiny UI - welcome line + 3 example questions and a note “facts only. No investment advice. 
+
+Document -
+
+Groww_SIP_Investor_Journey_Review_Corpus.docx
+
+
+Workflow should go beyond summarising reviews or performing sentiment analysis. It should enable you to identify, quantify where possible, and compare potential opportunity areas that could influence the stated business metric. 
+(12-month SIP continuation for first-time investors- Starting a SIP is easy. A few taps, a small monthly amount, and a quiet promise to your future self.
+Staying with it is a different matter. Months pass, life gets busier, the first few statements look underwhelming, and the SIP that felt like a good decision in month one becomes something users stop thinking about, pause, or let lapse.
+One of your company’s strategic goals is to:
+Increase the percentage of first-time mutual fund investors who still have an active SIP 12 months after starting their first one.
+An active SIP means at least one successful instalment in the last 30 days. Investors who stay invested longer are worth more to the platform and, more importantly, are the ones who actually benefit from investing)
+Key constraints
+**Public sources only.** No screenshots of the app back-end; no third-party blogs as sources.
+**No PII.** Do not accept/store PAN, Aadhaar, account numbers, OTPs, emails, or phone numbers.
+**No performance claims.** Don’t compute/compare returns; link to the official factsheet if asked.
+**Clarity & transparency.** Keep answers ≤3 sentences; add “Last updated from sources: ”.
+
+
+
+
+What we are building - A RAG-based, AI-powered discovery engine or chatbot.
+The discovery engine should help answer questions such as:
+Why do people start a SIP, and what do they expect to happen?
+What changes in their behaviour in the months after starting?
+What leads investors to pause, reduce or stop a SIP?
+What do investors check, and how often, once they have started?
+What confuses or worries them inside the app?
+What do they do outside the app when they feel unsure?
+What separates investors who continue from those who quietly drop off?
+How do these patterns differ across user segments (income stability, age, source of money, who influenced them)?
+What unmet needs emerge consistently across conversations?
+Not just the above questions but anything similar to the above questions.
+
+
+
+RAG - 
+Data ingestion:
+
+
+Uploading document
+Chunking
+ Use as per the data provided. Whichever is most suitable.
+Embedding
+Free and lightweight embedding model
+sentence-transformers/all-MiniLM-L6-v2 (Hugging Face)
+Storing data in the vector space
+ChromaDB
+
+
+Data Retrieval
+Question
+Embedding
+Same
+Finding the right chunk from the vector space
+LLM Prompt generation
+Which LLM - Google Gemini - Gemini API Key
+Answer generation
+
+
+UI
+
+
+Simple Basic UI
+Colour Scheme - whichever is suitable for this project
+Streamlit
+
+
+Point to note - This is for a project, so no need to go deep and build something too complex.
