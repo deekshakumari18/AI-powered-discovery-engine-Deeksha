@@ -6,9 +6,16 @@ Does not add analysis and does not keep personal data.
 
 from __future__ import annotations
 
+import logging
 import re
 import sys
 from pathlib import Path
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+)
+logger = logging.getLogger(__name__)
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
@@ -25,6 +32,18 @@ EXAMPLES = [
     "What leads people to pause, reduce, or stop a SIP?",
     "What confuses or worries users inside investing apps after they start?",
 ]
+
+APP_ROOT = Path(__file__).resolve().parent.parent
+logger.info("ui: starting python=%s cwd=%s", sys.version.split()[0], Path.cwd())
+logger.info("ui: app root=%s", APP_ROOT)
+for label, rel_path in (
+    ("loaded", "Data/raw/loaded.json"),
+    ("chunks", "Data/chunks/chunks.json"),
+    ("embeddings", "Data/embeddings/embeddings.json"),
+    ("vectordb", "Data/vectordb"),
+):
+    path = APP_ROOT / rel_path
+    logger.info("ui: data %s=%s exists=%s", label, path, path.exists())
 
 st.set_page_config(page_title="SIP Discovery", layout="centered")
 st.markdown(
@@ -132,6 +151,7 @@ def _ask(question: str) -> None:
             reply = answer(question, st.session_state.history[:-1])
             st.session_state.last_hits = list(retrieval.last_hits)
     except Exception:
+        logger.exception("ui: chat request failed")
         reply = UNAVAILABLE
     st.session_state.history.append({"role": "assistant", "content": reply})
 

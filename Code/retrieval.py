@@ -9,12 +9,16 @@ Does not store the question. UI is out of scope.
 from __future__ import annotations
 
 import json
+import logging
 import re
 import sys
+import time
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+logger = logging.getLogger(__name__)
 
 from dotenv import load_dotenv
 
@@ -59,7 +63,7 @@ from rerank import (
     SUPPORT_QUERY,
     transaction_status_alignment,
 )
-from vector_store import COLLECTION_NAME, get_client
+from vector_store import COLLECTION_NAME, get_client, log_diagnostics
 
 TOP_K = 4
 MIN_SIMILARITY = 0.24
@@ -398,14 +402,38 @@ def retrieve(
 
     global last_hits
 
+    log_diagnostics()
+
     expanded = expand_query(question)
     lexical_q = expand_query(lexical_question or question)
-    vector = get_model().encode(
+
+    started = time.perf_counter()
+    model = get_model()
+    logger.info(
+        "retrieve: embedding model ready in %.2fs (model=%s)",
+        time.perf_counter() - started,
+        MODEL_ID,
+    )
+
+    started = time.perf_counter()
+    vector = model.encode(
         [expanded],
         normalize_embeddings=True,
         show_progress_bar=False,
     )[0]
+    logger.info(
+        "retrieve: query embedded in %.2fs",
+        time.perf_counter() - started,
+    )
+
+    started = time.perf_counter()
     collection = get_client().get_collection(COLLECTION_NAME)
+    logger.info(
+        "retrieve: chroma collection %r opened in %.2fs (%d records)",
+        COLLECTION_NAME,
+        time.perf_counter() - started,
+        collection.count(),
+    )
     stored_model = (collection.metadata or {}).get("model_id")
     if stored_model and stored_model != MODEL_ID:
         raise RuntimeError(
@@ -415,13 +443,27 @@ def retrieve(
     units = _units_by_id()
     total_chunks = collection.count()
     n_results = min(total_chunks, max(GLOBAL_CHUNK_CANDIDATES, total_chunks))
+    started = time.perf_counter()
     result = collection.query(
         query_embeddings=[query.tolist()],
         n_results=n_results,
         include=["documents", "metadatas", "distances"],
     )
     hits = _hits_from_result(result)
+    logger.info(
+        "retrieve: vector search over %d chunks returned %d hits in %.2fs",
+        total_chunks,
+        len(hits),
+        time.perf_counter() - started,
+    )
+
+    started = time.perf_counter()
     hits = _merge_lexical_supplements(hits, lexical_q, units, collection, query)
+    logger.info(
+        "retrieve: lexical supplement merged to %d hits in %.2fs",
+        len(hits),
+        time.perf_counter() - started,
+    )
     for hit in hits:
         parent = _parent_id(hit["id"])
         unit = units.get(parent, {})
@@ -463,18 +505,28 @@ def retrieve(
         lexical_question or question,
         [row["text"] for row in reviews],
     ):
+        logger.warning(
+            "retrieve: %d candidate records failed the grounding check",
+            len(reviews),
+        )
         last_hits = []
         return []
     reviews.sort(key=lambda row: row["similarity"], reverse=True)
     review_by_id: dict[str, dict] = {row["id"]: row for row in reviews}
     vector_pool_ids = set(review_by_id)
     user_q = lexical_question or question
+    started = time.perf_counter()
     bm25_index = get_bm25_index()
     bm25_a = bm25_index.normalized_scores(lexical_q, top_k=120)
     bm25_b = bm25_index.normalized_scores(lexical_focus_query(lexical_q), top_k=120)
     bm25_scores = dict(bm25_a)
     for pid, score in bm25_b.items():
         bm25_scores[pid] = max(bm25_scores.get(pid, 0.0), score)
+    logger.info(
+        "retrieve: bm25 scored %d records in %.2fs",
+        len(bm25_scores),
+        time.perf_counter() - started,
+    )
 
     def _inject_record(pid: str, hybrid_seed: float) -> None:
         if pid in review_by_id or pid not in units:
@@ -602,6 +654,7 @@ def retrieve(
             seed = max(MIN_SIMILARITY, min(0.42, 0.16 + mea + bm25_norm * 0.1))
             _inject_record(pid, seed)
 
+    started = time.perf_counter()
     rescored: list[dict] = []
     for pid, review in review_by_id.items():
         unit = units.get(pid, {})
@@ -644,7 +697,18 @@ def retrieve(
         ):
             kept.append(row)
 
+    logger.info(
+        "retrieve: reranked %d candidates in %.2fs (%d kept after filters)",
+        len(rescored),
+        time.perf_counter() - started,
+        len(kept),
+    )
+
     if kept and not question_supported_by_texts(user_q, [row["text"] for row in kept]):
+        logger.warning(
+            "retrieve: %d kept records failed the grounding check",
+            len(kept),
+        )
         last_hits = []
         return []
 
@@ -658,6 +722,7 @@ def retrieve(
     )
     reviews = kept[: max(k, MAX_RECORDS)]
     last_hits = reviews
+    logger.info("retrieve: returning %d records", len(reviews))
     return reviews
 
 
@@ -897,16 +962,40 @@ def answer(question: str, history: list[dict] | None = None) -> str:
         return blocked
     if PROOF.search(question.strip()) and last_hits:
         return format_proofs(last_hits)
+    request_started = time.perf_counter()
     search_question = contextualize_question(question, history)
     hits = retrieve(search_question, lexical_question=question)
+    logger.info(
+        "answer: retrieval finished in %.2fs (%d hits)",
+        time.perf_counter() - request_started,
+        len(hits),
+    )
     if not hits or _top_relevance(hits[0]) < MIN_SIMILARITY:
+        logger.warning(
+            "answer: top relevance %.3f below threshold %.3f",
+            _top_relevance(hits[0]) if hits else 0.0,
+            MIN_SIMILARITY,
+        )
         return "The documents do not cover this."
     lexical_q = expand_query(question)
+    started = time.perf_counter()
     evidence_hits = select_evidence(hits, lexical_q)
+    logger.info(
+        "answer: evidence selection kept %d of %d records in %.2fs",
+        len(evidence_hits),
+        len(hits),
+        time.perf_counter() - started,
+    )
     items = [to_evidence_item(h) for h in evidence_hits]
     last_hits[:] = evidence_hits
     prompt = _prompt(question, evidence_hits)
+    started = time.perf_counter()
     body = _generate(prompt).strip()
+    logger.info(
+        "answer: generation returned %d chars in %.2fs",
+        len(body),
+        time.perf_counter() - started,
+    )
     if not body or body.lower().startswith("the documents do not cover this"):
         return "The documents do not cover this."
     if "## Summary" not in body or "## What the reviews say" not in body:
@@ -922,6 +1011,11 @@ def answer(question: str, history: list[dict] | None = None) -> str:
         cited = fallback_cited_ids(items, lexical_q)
     cited, cite_issues = filter_cited_ids_by_validation(body, items, cited)
     citation_block = format_citations_for_ids(items, cited)
+    logger.info(
+        "answer: completed in %.2fs (%d cited records)",
+        time.perf_counter() - request_started,
+        len(cited),
+    )
     return _format_user_answer(body, evidence_hits, citation_block)
 
 

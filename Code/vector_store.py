@@ -8,9 +8,12 @@ Rebuilds the collection on each run so unknown files are not mixed in.
 from __future__ import annotations
 
 import json
+import logging
 from pathlib import Path
 
 import chromadb
+
+logger = logging.getLogger(__name__)
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 CHUNKS_PATH = PROJECT_ROOT / "Data" / "chunks" / "chunks.json"
@@ -18,6 +21,7 @@ THEMES_PATH = PROJECT_ROOT / "Data" / "chunks" / "themes.json"
 EMBEDDINGS_PATH = PROJECT_ROOT / "Data" / "embeddings" / "embeddings.json"
 VECTORDB_DIR = PROJECT_ROOT / "Data" / "vectordb"
 COLLECTION_NAME = "groww_sip_corpus"
+_diagnostics_logged = False
 
 
 def _load_json(path: Path) -> dict:
@@ -84,6 +88,53 @@ def build_records() -> tuple[list[str], list[list[float]], list[str], list[dict]
 def get_client() -> chromadb.PersistentClient:
     VECTORDB_DIR.mkdir(parents=True, exist_ok=True)
     return chromadb.PersistentClient(path=str(VECTORDB_DIR))
+
+
+def log_diagnostics() -> None:
+    """Log read-only health information about the persisted collection once."""
+    global _diagnostics_logged
+    if _diagnostics_logged:
+        return
+    _diagnostics_logged = True
+
+    logger.info(
+        "persistence dir=%s exists=%s",
+        VECTORDB_DIR,
+        VECTORDB_DIR.is_dir(),
+    )
+    try:
+        client = get_client()
+        names: set[str] = set()
+        for item in client.list_collections():
+            names.add(item if isinstance(item, str) else item.name)
+        logger.info(
+            "collections=%s target=%r present=%s",
+            sorted(names),
+            COLLECTION_NAME,
+            COLLECTION_NAME in names,
+        )
+        if COLLECTION_NAME not in names:
+            logger.error("collection %r is missing", COLLECTION_NAME)
+            return
+        collection = client.get_collection(COLLECTION_NAME)
+        count = collection.count()
+        logger.info(
+            "collection %r count=%d metadata=%s",
+            COLLECTION_NAME,
+            count,
+            collection.metadata,
+        )
+        probe = collection.peek(limit=1)
+        ids = probe.get("ids") or []
+        documents = probe.get("documents") or []
+        logger.info(
+            "test peek returned %d id(s), first_id=%s, has_document=%s",
+            len(ids),
+            ids[0] if ids else None,
+            bool(documents and documents[0]),
+        )
+    except Exception:
+        logger.exception("diagnostics failed")
 
 
 def rebuild_collection() -> chromadb.Collection:
