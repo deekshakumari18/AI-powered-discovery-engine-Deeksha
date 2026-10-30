@@ -8,6 +8,9 @@ __pycache__/
 .venv/
 venv/
 
+# FastEmbed ONNX model cache (downloaded during the Render build)
+.fastembed_cache/
+
 # Bundled local tooling / runtimes (not part of the app)
 .opencode/
 node_modules/

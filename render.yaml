@@ -3,10 +3,12 @@ services:
     name: ai-powered-discovery-engine
     runtime: python
     plan: free
-    buildCommand: pip install -r requirements.txt
+    buildCommand: pip install -r requirements.txt && FASTEMBED_CACHE_PATH=/opt/render/project/src/.fastembed_cache python Code/verify_embedding_cache.py
     startCommand: streamlit run Code/ui.py --server.port $PORT --server.address 0.0.0.0 --server.headless true --browser.gatherUsageStats false
     envVars:
       - key: GROQ_API_KEY
         sync: false
       - key: GROQ_MODEL
         value: openai/gpt-oss-20b
+      - key: FASTEMBED_CACHE_PATH
+        value: /opt/render/project/src/.fastembed_cache
